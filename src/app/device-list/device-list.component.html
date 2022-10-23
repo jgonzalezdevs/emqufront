@@ -1,0 +1,85 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="#" class="navbar-brand">Prueba</a>
+    <div class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a href="http://localhost:4200/devices" class="nav-link">Lista de Dispositivos</a>
+      </li>
+      <li class="nav-item">
+        <a href="http://localhost:4200/create-device" class="nav-link">Crear Dispositivos</a>
+      </li>
+    </div>
+  </nav>
+  <div class="list row">
+  
+      <div class="col-md-6">
+        <h4>Lista de Dispositivos</h4>
+        <ul class="list-group">
+          <li
+            class="list-group-item"
+            *ngFor="let device of devices; let i = index"
+            [class.active]="i == currentIndex"
+            (click)="setCurrentDevice(device, i)"
+          >
+          <img style="max-width: 50px;" src="https://static.vecteezy.com/system/resources/previews/001/203/930/original/computer-png.png" alt="pc">
+          <strong>
+              {{device.name}}, Ipv4: {{device.ipv4}}
+          </strong>
+          <div class="d-flex flex-row-reverse">
+            <button (click)="pingDevice(device.ipv4)" type="button" class="btn btn-dark">Ping</button>
+          </div>
+          </li>
+        </ul>
+
+        
+        <button class="m-4 btn btn-sm btn-danger" (click)="deleteAllDevices()">
+            Delete All
+        </button>
+        <ul class="list-group">
+          <li
+            class="list-group-item"
+            *ngFor="let item of stadistics | keyvalue"
+          >
+          <strong>
+                Ipv4: {{item.value["device_ipv4"]}}, Ping's Correctos: {{item.value["sucess_ping"]}}, Ping's Fallidos: {{item.value["failed_ping"]}}
+          </strong>
+          </li>
+        </ul>
+  
+      </div>
+      <div class="col-md-6">
+        <div *ngIf="currentDevice">
+            <h4>Dispositivo</h4>
+            <img style="max-width: 100px;" src="https://static.vecteezy.com/system/resources/previews/001/203/930/original/computer-png.png" alt="computer">
+          <div>
+            <label><strong>Nombre:</strong> {{currentDevice.name}} </label> 
+          </div>
+          <div>
+            <label><strong>Ipv4:</strong> {{currentDevice.ipv4}} </label>
+          </div>
+          <div>
+            <label><strong>Sistema Operativo:</strong>  {{currentDevice.os}} </label>
+          </div>
+          <div>
+            <label><strong>Version de Sistema Operativo:</strong> {{currentDevice.os_version}} </label>
+          </div>
+          <div>
+            <label><strong>Esta Activo?:</strong> {{currentDevice.is_active}} </label>
+          </div>
+          <div>
+            <label><strong>Fecha de Creacion:</strong> {{currentDevice.created}} </label>
+          </div>
+          <div>
+            <label><strong>Fecha de Modificacion:</strong> {{currentDevice.modified}} </label>
+          </div>
+    
+          <a class="btn btn-warning" routerLink="/devices/{{currentDevice.id}}">
+            Editar
+          </a>
+        </div>
+    
+        <div *ngIf="!currentDevice">
+          <br />
+          <p>Por favor haga click en un dispositivo.</p>
+        </div>
+      </div>
+    </div>
